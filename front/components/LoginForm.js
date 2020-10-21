@@ -1,9 +1,9 @@
 
-
 import {Button, Form, Input} from 'antd';
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import PropTypes from 'prop-types'
 
 const ButtonWrapper = styled.div`
     margin-top: 10px;
@@ -17,7 +17,6 @@ const initialInputs = {
     userId: '',
     userPw: ''
 }
-
 
 const LoginForm = ({setIsLoggedIn}) => {
 
@@ -52,6 +51,10 @@ const LoginForm = ({setIsLoggedIn}) => {
             </ButtonWrapper>
         </FormWrapper>
     );
+}
+
+LoginForm.propTypes = {
+    setIsLoggedIn: PropTypes.func.isRequired,
 }
 
 export default LoginForm;
