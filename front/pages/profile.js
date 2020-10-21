@@ -1,7 +1,13 @@
 import AppLayout from "../components/AppLayout";
+import FollowList from '../components/FollowList';
+import NicknameEditForm from '../components/NicknameEditForm';
 import Head from 'next/head';
 
 const Profile = () => {
+
+    const followerList = [{nickname: 'jun'}, {nickname: '바보'}, {nickname: '멍청이'}];
+    const followingList = [{nickname: 'jun'}, {nickname: '바보'}, {nickname: '멍청이'}];
+
     return( 
         <>
             <Head>
@@ -9,7 +15,9 @@ const Profile = () => {
                 <title>profile</title>
             </Head>
             <AppLayout>
-                내 프로필
+                <NicknameEditForm/>
+                <FollowList header="팔로잉 목록" data={followingList}/>
+                <FollowList header="팔로워 목록" data={followerList}/>
             </AppLayout>
         </>
     )
