@@ -1,15 +1,45 @@
 import PropTypes from 'prop-types';
 import Link from 'next/link';
+import LoginForm from './LoginForm';
+import UserProfile from './UserProfile';
+import {Menu, Input, Row, Col} from 'antd'
+import { useState } from 'react';
+import styled from 'styled-components';
+// antd 커스텀 디자인방법
+
+const SearchInput = styled(Input.Search)`
+    vertical-align: middle;
+`;
 
 const AppLayout = ({children}) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     return (
         <div>
-            <div>
-                <Link href="/">메인</Link>
-                <Link href="/profile">프로필</Link>
-                <Link href="/signup">회원가입</Link>
-            </div>
-            {children}
+            <Menu mode="horizontal">
+                <Menu.Item>
+                    <Link href="/">메인</Link>
+                </Menu.Item>
+                <Menu.Item>
+                    <Link href="/profile">프로필</Link>
+                </Menu.Item>
+                <Menu.Item>
+                    <SearchInput placeholder="input search text"/> 
+                </Menu.Item>
+                <Menu.Item>
+                    <Link href="/signup">회원가입</Link>
+                </Menu.Item>
+            </Menu>
+            <Row gutter={8}>
+                <Col xs={24} md={6}>
+                    {isLoggedIn ? <UserProfile setIsLoggedIn={setIsLoggedIn} /> : <LoginForm setIsLoggedIn={setIsLoggedIn}/>}
+                </Col>
+                <Col xs={24} md={12}>
+                    {children}
+                </Col>
+                <Col xs={24} md={6}>
+                    <a href="https://codingjuny.tistory.com/" target='_blank'>My blog</a>
+                </Col>
+            </Row>
         </div>
     );
 }
