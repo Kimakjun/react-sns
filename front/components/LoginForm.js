@@ -10,7 +10,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const FormWrapper = styled(Form)`
-    padding: 10px;
+    padding: 20px;
 `
 
 const initialInputs = {
