@@ -1,16 +1,16 @@
-
 import {Button, Form, Input} from 'antd';
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import PropTypes from 'prop-types'
+import {useDispatch} from 'react-redux';
+import {loginAction} from '../reducers/user';
 
 const ButtonWrapper = styled.div`
     margin-top: 10px;
 `;
 
 const FormWrapper = styled(Form)`
-    padding: 10px;
+    padding: 20px;
 `
 
 const initialInputs = {
@@ -18,8 +18,10 @@ const initialInputs = {
     userPw: ''
 }
 
-const LoginForm = ({setIsLoggedIn}) => {
+const LoginForm = () => {
 
+    const dispatch = useDispatch();
+    
     const [inputs, setInputs] = useState(initialInputs);
     const {userId, userPw} = inputs;
     // inputs 만 바뀔때만 onChange 함수 새로 생성
@@ -29,7 +31,7 @@ const LoginForm = ({setIsLoggedIn}) => {
     },[inputs]);
 
     const onSummitForm = useCallback((e) => {
-        setIsLoggedIn(true);
+        dispatch(loginAction({userId, userPw}));
     }, [inputs]);
     
 
@@ -53,8 +55,5 @@ const LoginForm = ({setIsLoggedIn}) => {
     );
 }
 
-LoginForm.propTypes = {
-    setIsLoggedIn: PropTypes.func.isRequired,
-}
 
 export default LoginForm;

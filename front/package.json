@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next"
+    "dev": "next -p 3300"
   },
   "author": "KIMHAKJUN",
   "license": "ISC",
@@ -12,9 +12,14 @@
     "@ant-design/icons": "^4.2.2",
     "antd": "^4.7.2",
     "next": "^9.5.5",
+    "next-redux-wrapper": "^6.0.2",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-redux": "^7.2.1",
+    "react-slick": "^0.27.12",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
     "styled-components": "^5.2.0"
   },
   "devDependencies": {
