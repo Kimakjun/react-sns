@@ -2,8 +2,8 @@ import {Button, Form, Input} from 'antd';
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import {useDispatch} from 'react-redux';
-import {loginAction} from '../reducers/user';
+import {useDispatch, useSelector} from 'react-redux';
+import {loginRequestAction} from '../reducers/user';
 
 const ButtonWrapper = styled.div`
     margin-top: 10px;
@@ -21,7 +21,7 @@ const initialInputs = {
 const LoginForm = () => {
 
     const dispatch = useDispatch();
-    
+    const {isLoggingIn} = useSelector((state) => state.user);
     const [inputs, setInputs] = useState(initialInputs);
     const {userId, userPw} = inputs;
     // inputs 만 바뀔때만 onChange 함수 새로 생성
@@ -31,7 +31,7 @@ const LoginForm = () => {
     },[inputs]);
 
     const onSummitForm = useCallback((e) => {
-        dispatch(loginAction({userId, userPw}));
+        dispatch(loginRequestAction({userId, userPw}));
     }, [inputs]);
     
 
@@ -48,7 +48,7 @@ const LoginForm = () => {
                 <Input name='userPw'type='password' value={userPw} onChange={onChange} required/>
             </div>
             <ButtonWrapper>
-                <Button type='primary' htmlType='submit'>로그인</Button>
+                <Button type='primary' htmlType='submit' loading={isLoggingIn}>로그인</Button>
                 <Link href='/signup'><a><Button>회원가입</Button></a></Link>
             </ButtonWrapper>
         </FormWrapper>
