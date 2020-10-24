@@ -32,14 +32,14 @@ const CommentForm = ({post}) => {
         <Form onFinish={onSubmitComment}>
         <Form.Item style={{ position: 'relative', margin: 0 }}>
           <Input.TextArea rows={4} value={commentText} onChange={onChangeCommentText} />
-          <Button loading={addCommentLoading} style={{ position: 'absolute', right: 0, bottom: -40 }} type="primary" htmlType="submit">삐약</Button>
+          <Button loading={addCommentLoading} style={{ position: 'absolute', right: 0, bottom: -40, zIndex: 5}} type="primary" htmlType="submit">삐약</Button>
         </Form.Item>
       </Form>
         
     );
 }
 
-CommentForm.PropTypes = {
+CommentForm.propTypes = {
     post: PropTypes.object.isRequired,
 };
 

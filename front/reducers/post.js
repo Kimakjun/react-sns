@@ -20,7 +20,7 @@ export const initialState = {
   addCommentError: null,
   };
 
-
+// 서버에서 보내는거 대체.
 export const generateDummyPost = (number) => Array(number).fill().map(()=> ({
   id: shortId.generate(),
   User: {

@@ -31,7 +31,7 @@ const LoginForm = () => {
     },[inputs]);
 
     const onSummitForm = useCallback((e) => {
-        dispatch(loginRequestAction({userId, userPw}));
+        dispatch(loginRequestAction({userEmail, userPw}));
     }, [inputs]);
     
 
