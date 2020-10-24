@@ -2,8 +2,8 @@ import {Button, Form, Input} from 'antd';
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import {useDispatch} from 'react-redux';
-import {loginAction} from '../reducers/user';
+import {useDispatch, useSelector} from 'react-redux';
+import {loginRequestAction} from '../reducers/user';
 
 const ButtonWrapper = styled.div`
     margin-top: 10px;
@@ -14,16 +14,16 @@ const FormWrapper = styled(Form)`
 `
 
 const initialInputs = {
-    userId: '',
+    userEmail: '',
     userPw: ''
 }
 
 const LoginForm = () => {
 
     const dispatch = useDispatch();
-    
+    const {logInLoading} = useSelector((state) => state.user);
     const [inputs, setInputs] = useState(initialInputs);
-    const {userId, userPw} = inputs;
+    const {userEmail, userPw} = inputs;
     // inputs 만 바뀔때만 onChange 함수 새로 생성
     const onChange = useCallback((e) => {
         const {name, value} = e.target;
@@ -31,16 +31,16 @@ const LoginForm = () => {
     },[inputs]);
 
     const onSummitForm = useCallback((e) => {
-        dispatch(loginAction({userId, userPw}));
+        dispatch(loginRequestAction({userEmail, userPw}));
     }, [inputs]);
     
 
     return (
         <FormWrapper onFinish={onSummitForm}>
             <div>
-                <label htmlFor='userId'>아이디</label>
+                <label htmlFor='userId'>이메일</label>
                 <br/>
-                <Input name='userId' type='text' value={userId} onChange={onChange} required/>
+                <Input name='userEmail' type='text' value={userEmail} onChange={onChange} required/>
             </div>
             <div>
             <label htmlFor='userPw'>비밀번호</label>
@@ -48,7 +48,7 @@ const LoginForm = () => {
                 <Input name='userPw'type='password' value={userPw} onChange={onChange} required/>
             </div>
             <ButtonWrapper>
-                <Button type='primary' htmlType='submit'>로그인</Button>
+                <Button type='primary' htmlType='submit' loading={logInLoading}>로그인</Button>
                 <Link href='/signup'><a><Button>회원가입</Button></a></Link>
             </ButtonWrapper>
         </FormWrapper>

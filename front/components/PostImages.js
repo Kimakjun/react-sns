@@ -55,7 +55,7 @@ const PostImages = ({images}) => {
 PostImages.propTypes = {
     images: PropTypes.arrayOf(PropTypes.shape({
         src: PropTypes.string,
-    })),
+    })).isRequired,
 }
 
 export default PostImages;
