@@ -1,17 +1,31 @@
 import { EllipsisOutlined, HeartTwoTone, MessageOutlined, RetweetOutlined } from '@ant-design/icons';
 import { Button, Card, Popover, Avatar, List, Comment } from 'antd';
 import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
 import PostImages from './PostImages';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
+import { REMOVE_POST_REQUEST } from '../reducers/post';
+import FollowButton from './FollowButton';
+import Link from 'next/link';
+
+const CardWrapper = styled.div`
+    margin-bottom: 20px;
+`;
+
 
 const PostCard = ({post}) => {
-    const id = useSelector((state)=> state.user.me?.id);
     
-    const [liked, setLiked] = useState(false);
+    const dispatch = useDispatch();
+    const {removePostLoading} = useSelector((state) => state.post);
     const [commentFormOpend, setCommentFormOpend] = useState(false);
+    const [liked, setLiked] = useState(false);
+    const { me } = useSelector((state) => state.user);
+    const id = me && me.id;
+
     const onToggleLike = useCallback(()=>{
         setLiked((prev) => !prev);
     }, [])
@@ -20,9 +34,15 @@ const PostCard = ({post}) => {
         setCommentFormOpend((prev) => !prev);
     }, []);
 
+    const onRemovePost = useCallback(() => {
+        dispatch({
+            type: REMOVE_POST_REQUEST,
+            data: post.id,
+        })
+    }, []);
 
     return (
-        <div>
+        <CardWrapper>
             <Card
                 cover={post.Images[0] && <PostImages images={post.Images}/>}
                 actions={[
@@ -36,7 +56,7 @@ const PostCard = ({post}) => {
                             {id && post.User.id === id ?
                             <>
                             <Button>수정</Button>
-                            <Button type="danger">삭제</Button>
+                            <Button type="danger" loading={removePostLoading} onClick={onRemovePost}>삭제</Button>
                             </> :
                             <Button>신고</Button>
                             }
@@ -46,6 +66,7 @@ const PostCard = ({post}) => {
                         <EllipsisOutlined />
                     </Popover>
                 ]}
+                extra={<FollowButton post={post}/>}
             >
             <Card.Meta
                 avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
@@ -57,14 +78,18 @@ const PostCard = ({post}) => {
                 <div>
                     <CommentForm post={post}/>
                     <List
-                        header={`${post.Comments.length} 개의 댓글`}
+                        header={`${post.Comments ? post.Comments.length: 0} 개의 댓글`}
                         itemLayout="horizontal"
-                        dataSource={post.Comments}
+                        dataSource={post.Comments || []}
                         renderItem={(item) => (
                             <li>
                                 <Comment
                                     author={item.User.nickname}
-                                    avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
+                                    avatar={(
+                                        <Link href={{pathname: '/user', query: {id: item.User.id}}} as={`/user/${item.User.id}`}>
+                                            <a><Avatar>{item.User.nickname[0]}</Avatar></a>
+                                        </Link>
+                                    )}
                                     content={item.content}
                                 />
                             </li>
@@ -72,7 +97,7 @@ const PostCard = ({post}) => {
                     />
                 </div>
             )}
-        </div>
+        </CardWrapper>
     );
 }
 
